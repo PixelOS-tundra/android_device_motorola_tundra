@@ -21,6 +21,9 @@ PRODUCT_PACKAGES += \
     checkpoint_gc \
     otapreopt_script
 
+# Add common definitions for Qualcomm
+$(call inherit-product, hardware/qcom-caf/common/common.mk)
+
 # Audio
 PRODUCT_PACKAGES += \
     libaudiopreprocessing \
