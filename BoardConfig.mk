@@ -157,7 +157,8 @@ include hardware/motorola/sepolicy/qti/SEPolicy.mk
 BOARD_VENDOR_SEPOLICY_DIRS += $(DEVICE_PATH)/hardware/sepolicy/vendor
 
 # Security
-VENDOR_SECURITY_PATCH := 2025-08-01
+BOOT_SECURITY_PATCH := 2025-08-01
+VENDOR_SECURITY_PATCH := $(BOOT_SECURITY_PATCH)
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
