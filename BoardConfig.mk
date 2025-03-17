@@ -58,7 +58,7 @@ TARGET_SCREEN_DENSITY := 400
 TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/configs/config.fs
 
 # Fingerprint
-SOONG_CONFIG_qtidisplay_udfps := true
+TARGET_USES_FOD_ZPOS := true
 
 # GPS
 BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
