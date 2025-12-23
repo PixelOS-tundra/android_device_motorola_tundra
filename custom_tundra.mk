@@ -21,9 +21,6 @@ PRODUCT_BRAND := motorola
 PRODUCT_MODEL := motorola edge 30 fusion
 
 PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRIVATE_BUILD_DESC="tundra_g-user 13 T1SJ33.117-30-4 6a9b48 release-keys" \
-    PRODUCT_NAME=tundra_g
-
-BUILD_FINGERPRINT := motorola/tundra_g/tundra:11/T1SJ33.117-30-4/6a9b48:user/release-keys
-
-PRODUCT_GMS_CLIENTID_BASE := android-motorola
+    BuildDesc="tundra_g-user 14 U1SJS34.2-92-10-9 40971b-55161 release-keys" \
+    BuildFingerprint=motorola/tundra_g/tundra:14/U1SJS34.2-92-10-9/40971b-55161:user/release-keys \
+    DeviceProduct=tundra_g
