@@ -90,14 +90,8 @@ PRODUCT_COPY_FILES += \
 
 # Boot control
 PRODUCT_PACKAGES += \
-    android.hardware.boot@1.1-impl-qti \
-    android.hardware.boot@1.1-impl-qti.recovery \
-    android.hardware.boot@1.1-service \
-    bootctrl.lahaina \
-    bootctrl.lahaina.recovery
-
-PRODUCT_PACKAGES_DEBUG += \
-    bootctl
+    android.hardware.boot-service.qti \
+    android.hardware.boot-service.qti.recovery
 
 # Call the proprietary setup
 $(call inherit-product, vendor/motorola/tundra/tundra-vendor.mk)
