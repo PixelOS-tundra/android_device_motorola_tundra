@@ -17,6 +17,9 @@
 #ifndef ANDROID_HARDWARE_BIOMETRICS_FINGERPRINT_V2_3_BIOMETRICSFINGERPRINT_H
 #define ANDROID_HARDWARE_BIOMETRICS_FINGERPRINT_V2_3_BIOMETRICSFINGERPRINT_H
 
+#include <aidl/android/hardware/power/IPower.h>
+#include <aidl/android/hardware/power/Mode.h>
+#include <android/binder_manager.h>
 #include <android/hardware/biometrics/fingerprint/2.3/IBiometricsFingerprint.h>
 #include <com/motorola/hardware/biometric/fingerprint/1.0/IMotoFingerPrint.h>
 #include <hidl/MQDescriptor.h>
@@ -45,6 +48,8 @@ using ::android::hardware::biometrics::fingerprint::V2_1::RequestStatus;
 using ::com::motorola::hardware::biometric::fingerprint::V1_0::IMotFodEventResult;
 using ::com::motorola::hardware::biometric::fingerprint::V1_0::IMotFodEventType;
 using ::com::motorola::hardware::biometric::fingerprint::V1_0::IMotoFingerPrint;
+using ::aidl::android::hardware::power::IPower;
+using ::aidl::android::hardware::power::Mode;
 
 struct BiometricsFingerprint : public IBiometricsFingerprint {
     BiometricsFingerprint();
@@ -70,6 +75,7 @@ struct BiometricsFingerprint : public IBiometricsFingerprint {
   private:
     void disableHighBrightFod();
     void enableHighBrightFod();
+    void setLaunchBoost(bool enable);
 
     bool hbmFodEnabled;
     std::mutex mSetHbmFodMutex;
@@ -78,6 +84,7 @@ struct BiometricsFingerprint : public IBiometricsFingerprint {
 
     sp<IBiometricsFingerprint_2_1> biometrics_2_1_service;
     sp<IMotoFingerPrint> mMotoFingerprint;
+    std::shared_ptr<IPower> mPowerService;
 };
 
 }  // namespace implementation

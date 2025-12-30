@@ -47,6 +47,9 @@ namespace fingerprint {
 namespace V2_3 {
 namespace implementation {
 
+// Power AIDL instance name
+static const std::string kPowerInstance = std::string(IPower::descriptor) + "/default";
+
 void setFodHbm(bool status) {
     android::base::WriteStringToFile(status ? "1" : "0", FOD_HBM_PATH);
 }
@@ -84,9 +87,16 @@ void BiometricsFingerprint::enableHighBrightFod() {
     hbmFodEnabled = true;
 }
 
+// Boost CPU while the sensor captures and matches, to unlock faster
+void BiometricsFingerprint::setLaunchBoost(bool enable) {
+    if (mPowerService) mPowerService->setMode(Mode::LAUNCH, enable);
+}
+
 BiometricsFingerprint::BiometricsFingerprint() {
     biometrics_2_1_service = IBiometricsFingerprint_2_1::getService();
     mMotoFingerprint = IMotoFingerPrint::getService();
+    mPowerService = IPower::fromBinder(
+            ndk::SpAIBinder(AServiceManager_waitForService(kPowerInstance.c_str())));
 
     hbmFodEnabled = false;
     mFingerSeq = 0;
@@ -146,6 +156,8 @@ Return<bool> BiometricsFingerprint::isUdfps(uint32_t) {
 }
 
 Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, float) {
+    setLaunchBoost(true);
+
     uint32_t seq = ++mFingerSeq;
     bool displayOn = isDisplayOn();
 
@@ -172,6 +184,7 @@ Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, floa
 
 Return<void> BiometricsFingerprint::onFingerUp() {
     ++mFingerSeq;
+    setLaunchBoost(false);
     BiometricsFingerprint::disableHighBrightFod();
 
     return Void();
