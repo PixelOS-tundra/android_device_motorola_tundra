@@ -106,6 +106,8 @@ TARGET_KERNEL_SOURCE := kernel/motorola/tundra
 TARGET_KERNEL_CONFIG := tundra_defconfig
 
 # Partitions
+-include vendor/lineage/config/BoardConfigReservedSize.mk
+
 BOARD_FLASH_BLOCK_SIZE := 262144
 BOARD_BOOTIMAGE_PARTITION_SIZE := 100663296
 BOARD_DTBOIMG_PARTITION_SIZE := 25165824
