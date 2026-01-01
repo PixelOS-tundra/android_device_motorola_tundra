@@ -1,2 +1,9 @@
 soong_namespace {
 }
+
+install_symlink {
+    name: "firmware_WCNSS_qcom_cfg.ini_qca6490_symlink",
+    vendor: true,
+    installed_location: "firmware/wlan/qca_cld/qca6490/WCNSS_qcom_cfg.ini",
+    symlink_target: "/vendor/etc/wifi/WCNSS_qcom_cfg.ini",
+}
