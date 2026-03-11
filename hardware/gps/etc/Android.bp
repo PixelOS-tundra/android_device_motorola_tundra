@@ -1,4 +1,10 @@
 prebuilt_etc {
+    name: "lowi.conf",
+    vendor: true,
+    src: "lowi.conf",
+}
+
+prebuilt_etc {
     name: "apdr.conf",
     vendor: true,
     src: "apdr.conf",
