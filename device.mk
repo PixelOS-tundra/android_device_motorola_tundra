@@ -322,10 +322,13 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.se.omapi.uicc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.se.omapi.uicc.xml
 
 # Overlay
-DEVICE_PACKAGE_OVERLAYS += \
-    $(LOCAL_PATH)/overlay
-
 PRODUCT_ENFORCE_RRO_TARGETS := *
+
+PRODUCT_PACKAGES += \
+    FrameworksResOverlay \
+    SettingsOverlay \
+    SettingsProviderOverlay \
+    SystemUIOverlay
 
 # Partitions
 PRODUCT_BUILD_SUPER_PARTITION := false
@@ -417,6 +420,7 @@ PRODUCT_PACKAGES += \
     qti-telephony-utils-prd \
     qti_telephony_utils.xml \
     qti_telephony_utils_prd.xml \
+    TelephonyOverlay \
     telephony-ext
 
 PRODUCT_BOOT_JARS += \
