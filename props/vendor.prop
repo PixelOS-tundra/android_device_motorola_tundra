@@ -278,6 +278,7 @@ ro.boot.product.vendor.sku=lahaina
 
 # USB
 vendor.usb.use_ffs_mtp=1
+vendor.usb.use_gadget_hal=1
 
 # WiFi
 wifi.aware.interface=wifi-aware0
