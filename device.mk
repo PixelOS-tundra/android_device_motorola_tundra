@@ -373,7 +373,7 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_PACKAGES += \
-    android.hardware.sensors@2.1-service.multihal \
+    android.hardware.sensors-service.multihal \
     sensors.tundra \
     vendor.qti.hardware.display.mapper@1.1.vendor
 
