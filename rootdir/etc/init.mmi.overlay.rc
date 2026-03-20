@@ -1,0 +1,58 @@
+on post-fs
+    # Sensors
+    chown system system /sys/devices/platform/soc/998000.spi/spi_master/spi0/spi0.0/touchscreen/primary/double_tap_enabled
+    chown system system /sys/devices/platform/soc/998000.spi/spi_master/spi0/spi0.0/touchscreen/primary/double_tap_pressed
+    chown system system /sys/devices/platform/soc/998000.spi/spi_master/spi0/spi0.0/touchscreen/primary/udfps_enabled
+    chown system system /sys/devices/platform/soc/998000.spi/spi_master/spi0/spi0.0/touchscreen/primary/udfps_pressed
+    chown system system /sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_hbm
+
+on post-fs-data
+    mkdir /mnt/vendor/persist/tof 0755 vendor_tcmd camera
+    chown vendor_tcmd camera /mnt/vendor/persist/tof/refspad_cal
+    chown vendor_tcmd camera /mnt/vendor/persist/tof/xtalk_g1_cal
+    chown vendor_tcmd camera /mnt/vendor/persist/tof/xtalk_shape_cal
+    chown vendor_tcmd camera /mnt/vendor/persist/tof/xtalk_production_cal
+    chown vendor_tcmd camera /mnt/vendor/persist/tof/offset_cal
+    chmod 0640 /mnt/vendor/persist/tof/refspad_cal
+    chmod 0640 /mnt/vendor/persist/tof/xtalk_g1_cal
+    chmod 0640 /mnt/vendor/persist/tof/xtalk_shape_cal
+    chmod 0640 /mnt/vendor/persist/tof/xtalk_production_cal
+    chmod 0640 /mnt/vendor/persist/tof/offset_cal
+    # Param updater data for various modules
+    mkdir /data/vendor/param 0775 system system
+    # Add for Egis Fod fingerprint
+    mkdir /data/vendor/egis 0770 system system
+    mkdir /mnt/vendor/persist/egis 0770 system system
+    mkdir /data/vendor/tzstorage/egis 0770 system system
+    mkdir /data/vendor/egis/cqa  0770 system system
+
+    # Add for fod fps calibration
+    chown system system /sys/class/backlight/panel0-backlight/brightness
+
+on early-boot
+    # Add for egis fingerprint
+    chown system system /dev/esfp0
+    chmod 0664 /dev/esfp0
+
+on boot
+    # Touch game mode control
+    chown system system /sys/class/touchscreen/primary/rotate
+    chmod 0660 /sys/class/touchscreen/primary/rotate
+    chown system system /sys/class/touchscreen/primary/interpolation
+    chmod 0660 /sys/class/touchscreen/primary/interpolation
+    chown system system /sys/class/touchscreen/primary/edge
+    chmod 0660 /sys/class/touchscreen/primary/edge
+    chown system system /sys/class/touchscreen/primary/first_filter
+    chmod 0660 /sys/class/touchscreen/primary/first_filter
+    # Set adaptive charging perms for HAL
+    chown system system /sys/module/qpnp_adaptive_charge/parameters/upper_limit
+    chown system system /sys/module/qpnp_adaptive_charge/parameters/lower_limit
+
+service capsense_reset /system/vendor/bin/capsense_reset
+   class core
+   user system
+   group system input
+   disabled
+
+on property:sys.boot_completed=1
+    start capsense_reset
