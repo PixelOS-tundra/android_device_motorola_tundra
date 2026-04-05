@@ -141,7 +141,7 @@ ro.crypto.dm_default_key.options_format.version=2
 ro.crypto.volume.metadata.method=dm-default-key
 
 # Dolby
-ro.vendor.dolby.dax.version=DAX3_3.8.5.20_r1
+ro.vendor.dolby.dax.version=DAX3_3.9.0.13_r1
 
 # DPM
 persist.vendor.dpm.feature=1
