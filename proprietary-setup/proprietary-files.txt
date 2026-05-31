@@ -493,7 +493,7 @@ vendor/lib64/vendor.display.color@1.5.so
 vendor/lib64/vendor.display.postproc@1.0.so
 
 # Dolby
-system/app/MotoDolbyDax3/MotoDolbyDax3.apk
+system/app/MotoDolbyDax3/MotoDolbyDax3.apk:system/priv-app/MotoDolbyDax3/MotoDolbyDax3.apk
 system/etc/permissions/com.motorola.dolby.dolbyui.dax3.features.xml
 system/etc/permissions/com.motorola.frameworks.core.addon.xml
 system/etc/sysconfig/hiddenapi-whitelist-com.motorola.dolby.dolbyui.xml
