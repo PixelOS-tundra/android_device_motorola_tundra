@@ -94,6 +94,7 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 
 TARGET_KERNEL_NO_GCC := true
 TARGET_KERNEL_SOURCE := kernel/motorola/tundra
+TARGET_KERNEL_CLANG_VERSION := r563880c
 TARGET_KERNEL_CONFIG := tundra_defconfig
 
 # Partitions
