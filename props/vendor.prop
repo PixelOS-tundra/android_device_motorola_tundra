@@ -25,8 +25,6 @@ ro.vendor.audio.sdk.fluence.nn.enabled=true
 ro.vendor.audio.sdk.fluencetype=none
 ro.vendor.audio.sdk.ssr=false
 vendor.audio.adm.buffering.ms=2
-vendor.audio.dolby.ds2.enabled=false
-vendor.audio.dolby.ds2.hardbypass=false
 vendor.audio.enable.mirrorlink=false
 vendor.audio.feature.a2dp_offload.enable=true
 vendor.audio.feature.afe_proxy.enable=true
@@ -139,9 +137,6 @@ vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.motorola.camera3,org.li
 # Crypto
 ro.crypto.dm_default_key.options_format.version=2
 ro.crypto.volume.metadata.method=dm-default-key
-
-# Dolby
-ro.vendor.dolby.dax.version=DAX3_3.9.0.13_r1
 
 # DPM
 persist.vendor.dpm.feature=1
