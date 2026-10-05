@@ -147,6 +147,30 @@ def split_large_files(vendor_path: str):
             os.remove(file_path)
 
 
+def join_split_files(vendor_path: str):
+    first_suffix = f'{SPLIT_SUFFIX}001'
+    for root, _, file_names in os.walk(vendor_path):
+        for file_name in file_names:
+            if not file_name.endswith(first_suffix):
+                continue
+
+            file_path = os.path.join(root, file_name[: -len(first_suffix)])
+            parts = sorted(
+                os.path.join(root, f)
+                for f in file_names
+                if f.startswith(os.path.basename(file_path) + SPLIT_SUFFIX)
+            )
+
+            print(f'Joining {file_path} from {len(parts)} parts')
+            with open(file_path, 'wb') as dst:
+                for part in parts:
+                    with open(part, 'rb') as src:
+                        dst.write(src.read())
+
+            for part in parts:
+                os.remove(part)
+
+
 def write_vendorsetup_sh(vendor_path: str):
     vendorsetup_path = os.path.join(vendor_path, 'vendorsetup.sh')
     with open(vendorsetup_path, 'w') as f:
@@ -155,10 +179,15 @@ def write_vendorsetup_sh(vendor_path: str):
 
 
 if __name__ == '__main__':
+    # Files split by a previous run must be whole again, since
+    # extract-utils hashes them while regenerating the makefiles.
+    vendor_path = get_vendor_path()
+    if os.path.isdir(vendor_path):
+        join_split_files(vendor_path)
+
     utils = ExtractUtils.device(module)
     utils.run()
 
-    vendor_path = get_vendor_path()
     if os.path.isdir(vendor_path):
         split_large_files(vendor_path)
         write_vendorsetup_sh(vendor_path)
