@@ -22,6 +22,8 @@
 #include <hidl/MQDescriptor.h>
 #include <hidl/Status.h>
 
+#include <atomic>
+
 namespace android {
 namespace hardware {
 namespace biometrics {
@@ -71,6 +73,8 @@ struct BiometricsFingerprint : public IBiometricsFingerprint {
 
     bool hbmFodEnabled;
     std::mutex mSetHbmFodMutex;
+    // Bumped on every finger down/up so a pending delayed enable can tell it is stale.
+    std::atomic<uint32_t> mFingerSeq;
 
     sp<IBiometricsFingerprint_2_1> biometrics_2_1_service;
     sp<IMotoFingerPrint> mMotoFingerprint;

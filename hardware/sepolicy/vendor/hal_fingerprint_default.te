@@ -1,0 +1,2 @@
+# Read the panel backlight to tell whether the display is on
+r_dir_file(hal_fingerprint_default, vendor_sysfs_graphics)

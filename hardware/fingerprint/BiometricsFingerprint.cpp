@@ -25,6 +25,7 @@
 
 #include <chrono>
 #include <cmath>
+#include <cstdlib>
 #include <fstream>
 #include <thread>
 
@@ -32,6 +33,12 @@
 #define NOTIFY_FINGER_DOWN IMotFodEventType::FINGER_DOWN
 
 #define FOD_HBM_PATH "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_hbm"
+#define BRIGHTNESS_PATH \
+    "/sys/devices/platform/soc/ae00000.qcom,mdss_mdp/backlight/panel0-backlight/brightness"
+
+#define DISPLAY_ON_POLL_MS 5
+#define DISPLAY_ON_TIMEOUT_MS 1000
+#define FOD_HBM_HOLD_MS 200
 
 namespace android {
 namespace hardware {
@@ -42,6 +49,13 @@ namespace implementation {
 
 void setFodHbm(bool status) {
     android::base::WriteStringToFile(status ? "1" : "0", FOD_HBM_PATH);
+}
+
+// Treat an unreadable node as on, so we never delay the screen-on path.
+static bool isDisplayOn() {
+    std::string value;
+    if (!android::base::ReadFileToString(BRIGHTNESS_PATH, &value)) return true;
+    return atoi(value.c_str()) > 0;
 }
 
 void BiometricsFingerprint::disableHighBrightFod() {
@@ -75,6 +89,7 @@ BiometricsFingerprint::BiometricsFingerprint() {
     mMotoFingerprint = IMotoFingerPrint::getService();
 
     hbmFodEnabled = false;
+    mFingerSeq = 0;
 }
 
 Return<uint64_t> BiometricsFingerprint::setNotify(
@@ -120,7 +135,9 @@ Return<RequestStatus> BiometricsFingerprint::setActiveGroup(uint32_t gid,
 
 Return<RequestStatus> BiometricsFingerprint::authenticate(uint64_t operationId, uint32_t gid) {
     auto ret = biometrics_2_1_service->authenticate(operationId, gid);
-    BiometricsFingerprint::onFingerUp();
+    // Keyguard may restart authentication while the panel wakes up for a screen off
+    // touch, so don't cancel a pending finger down here.
+    BiometricsFingerprint::disableHighBrightFod();
     return ret;
 }
 
@@ -129,17 +146,32 @@ Return<bool> BiometricsFingerprint::isUdfps(uint32_t) {
 }
 
 Return<void> BiometricsFingerprint::onFingerDown(uint32_t, uint32_t, float, float) {
-    BiometricsFingerprint::enableHighBrightFod();
+    uint32_t seq = ++mFingerSeq;
+    bool displayOn = isDisplayOn();
 
-    std::thread([this]() {
-        std::this_thread::sleep_for(std::chrono::milliseconds(200));
-        BiometricsFingerprint::onFingerUp();
+    if (displayOn) BiometricsFingerprint::enableHighBrightFod();
+
+    std::thread([this, seq, displayOn]() {
+        if (!displayOn) {
+            // With screen off unlock, SystemUI reports the finger before the panel is
+            // on, so HBM would be set on a dark panel. Wait for it to light up first.
+            for (int waited = 0; !isDisplayOn() && waited < DISPLAY_ON_TIMEOUT_MS;
+                 waited += DISPLAY_ON_POLL_MS) {
+                std::this_thread::sleep_for(std::chrono::milliseconds(DISPLAY_ON_POLL_MS));
+            }
+            if (seq != mFingerSeq) return;
+            BiometricsFingerprint::enableHighBrightFod();
+        }
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(FOD_HBM_HOLD_MS));
+        if (seq == mFingerSeq) BiometricsFingerprint::disableHighBrightFod();
     }).detach();
 
     return Void();
 }
 
 Return<void> BiometricsFingerprint::onFingerUp() {
+    ++mFingerSeq;
     BiometricsFingerprint::disableHighBrightFod();
 
     return Void();
