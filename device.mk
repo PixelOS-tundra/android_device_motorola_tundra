@@ -153,7 +153,7 @@ PRODUCT_PACKAGES += \
 
 # Dolby
 TARGET_INCLUDES_OEM_App := true
-$(call inherit-product, hardware/dolby/dolby.mk)
+$(call inherit-product, $(LOCAL_PATH)/hardware/dolby/dolby.mk)
 
 # Enable project quotas and casefolding for emulated storage without sdcardfs
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)

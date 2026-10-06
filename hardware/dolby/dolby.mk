@@ -15,7 +15,7 @@
 #
 
 # Dolby path
-DOLBY_PATH := hardware/dolby
+DOLBY_PATH := device/motorola/tundra/hardware/dolby
 
 # Soong Namespace
 PRODUCT_SOONG_NAMESPACES += \
