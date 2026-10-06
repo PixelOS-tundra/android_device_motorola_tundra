@@ -50,7 +50,18 @@
             <nits>1100.0</nits>
         </point>
     </screenBrightnessMap>
-    <highBrightnessMode enabled="true">
+    <!-- HBM is part of the regular brightness range so it can be reached with manual
+         brightness. Keep it out of reach once the device heats up, like the HBM
+         thermalStatusLimit did. -->
+    <thermalThrottling>
+        <brightnessThrottlingMap>
+            <brightnessThrottlingPoint>
+                <thermalStatus>moderate</thermalStatus>
+                <brightness>0.85811967</brightness>
+            </brightnessThrottlingPoint>
+        </brightnessThrottlingMap>
+    </thermalThrottling>
+    <highBrightnessMode enabled="false">
         <transitionPoint>0.85811967</transitionPoint> <!-- 3514/4095 -->
         <minimumLux>6500</minimumLux>
         <timing>
