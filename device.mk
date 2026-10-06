@@ -385,6 +385,8 @@ PRODUCT_PACKAGES += \
     librmnetctl
 
 # Sensors
+$(call soong_config_set_bool,moto_sensors,single_tap,true)
+
 PRODUCT_PACKAGES += \
     android.hardware.sensors-service.multihal \
     sensors.moto_ext \
