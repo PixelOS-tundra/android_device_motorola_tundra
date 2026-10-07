@@ -111,6 +111,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libgui_shim_vendor
 
+$(call soong_config_set_bool,stagefright,target_disable_thumbnail_block_model,true)
+
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.front.xml \
