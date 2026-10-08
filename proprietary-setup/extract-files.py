@@ -67,6 +67,7 @@ dolby_c2_stock_libs = (
     'libsfplugin_ccodec_utils',
     'libstagefright_bufferpool@2.0.1',
     'libstagefright_bufferqueue_helper',
+    'vendor.dolby.hardware.dms@2.0',
 )
 
 def dolby_c2_stock_fixup() -> blob_fixup:
@@ -98,6 +99,7 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/lib64/libsfplugin_ccodec_utils-stock.so',
         'vendor/lib64/libstagefright_bufferpool@2.0.1-stock.so',
         'vendor/lib64/libstagefright_bufferqueue_helper-stock.so',
+        'vendor/lib64/vendor.dolby.hardware.dms@2.0-stock.so',
     ): dolby_c2_stock_fixup()
         .fix_soname(),
     'vendor/lib64/libmot_chi_desktop_helper.so': blob_fixup()

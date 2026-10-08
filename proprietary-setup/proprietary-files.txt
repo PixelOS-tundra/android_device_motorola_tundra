@@ -496,6 +496,7 @@ system/etc/permissions/com.motorola.frameworks.core.addon.xml
 # copies of the codec2 libraries, renamed to *-stock, see blob_fixups.
 vendor/bin/hw/vendor.dolby.media.c2@1.0-service
 vendor/etc/init/vendor.dolby.media.c2@1.0-service.rc
+vendor/etc/vintf/manifest/vendor.dolby.media.c2@1.0-service.xml
 vendor/lib64/libcodec2_soft_ac4dec.so
 vendor/lib64/libcodec2_soft_ddpdec.so
 vendor/lib64/libcodec2_store_dolby.so
@@ -507,6 +508,7 @@ vendor/lib64/libdapparamstorage.so:vendor/lib64/libdapparamstorage-stock.so
 vendor/lib64/libdeccfg.so:vendor/lib64/libdeccfg-stock.so
 vendor/lib64/libsfplugin_ccodec_utils.so:vendor/lib64/libsfplugin_ccodec_utils-stock.so
 vendor/lib64/libstagefright_bufferpool@2.0.1.so:vendor/lib64/libstagefright_bufferpool@2.0.1-stock.so
+vendor/lib64/vendor.dolby.hardware.dms@2.0.so:vendor/lib64/vendor.dolby.hardware.dms@2.0-stock.so
 system_ext/apex/com.android.vndk.v30/lib64/libstagefright_bufferqueue_helper.so:vendor/lib64/libstagefright_bufferqueue_helper-stock.so
 
 # DPM
