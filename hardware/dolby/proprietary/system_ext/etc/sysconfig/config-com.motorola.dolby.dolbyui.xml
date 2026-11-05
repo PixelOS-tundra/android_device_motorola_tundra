@@ -2,4 +2,14 @@
 <config>
     <hidden-api-whitelisted-app package="com.motorola.dolby.dolbyui"/>
     <allow-in-power-save package="com.motorola.dolby.dolbyui" />
+
+    <!-- The daily usage check-in publishes through Motorola's moto-checkin
+         library (com.motorola.android.provider.CheckinEvent), which this ROM
+         doesn't ship, so the job crashes the app with NoClassDefFoundError.
+         Ship the job service and the date-change receiver that reschedules
+         it disabled; scheduling then fails inside the app's own catch. -->
+    <component-override package="com.motorola.dolby.dolbyui">
+        <component class=".checkin.CheckinSchedulerService" enabled="false" />
+        <component class=".checkin.CheckinDateTimeChangeReceiver" enabled="false" />
+    </component-override>
 </config>
